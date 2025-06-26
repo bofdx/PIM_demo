@@ -11,7 +11,7 @@ st.set_page_config(layout='wide')
 
 sections = st.sidebar.toggle('Sections', value = True, key = 'use_sections')
 
-nav = get_nav_from_toml("blank-app/pages_sections.toml" if sections else ".streamlit/pages.toml")
+nav = get_nav_from_toml("pages_sections.toml" if sections else "pages.toml")
 
 pg = st.navigation(nav)
 
