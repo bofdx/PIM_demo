@@ -1,7 +1,7 @@
 
 [[pages]]
 name = "Data Management"
-icon = st.markdown(icon=":material/thumb_up:")
+icon = ":material/thumb_up:"
 is_section = true
 
 [[pages]]
