@@ -1,5 +1,5 @@
 [[pages]]
-path = "blank-app/dataloader.py"
+path = "blank-app/main/dataloader.py"
 name = "Data Load"
 icon = "📊"
 
@@ -9,7 +9,7 @@ icon = "🧨"
 is_section = true
 
 [[pages]]
-path = "blank-app/page2.py"
+path = "blank-app/main/page2.py"
 name = "Page 2"
 icon = "🎈"
 
