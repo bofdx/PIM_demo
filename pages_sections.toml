@@ -1,18 +1,24 @@
 
 [[pages]]
-name = "Data Management"
-icon = "🤹‍♂️"
+name = "Portfolio Metadata"
+icon = "📊"
 is_section = true
 
 [[pages]]
 path = "dataloader.py"
-name = "Data Load"
-icon = "📊"
+name = "Data Loading"
+icon = "⚡"
 
 [[pages]]
-path = "page2.py"
+name = "Chance of Development"
+icon = "🎲"
+is_section = true
+
+[[pages]]
+path = ""
 name = "Page 2"
 icon = "🎈"
+
 
 
 # [[pages]]
