@@ -10,8 +10,9 @@ is_section = true
 
 [[pages]]
 path = "page2.py"
-name = "Pagd 2"
+name = "Page 2"
 icon = "🎈"
+
 
 # [[pages]]
 # path = "example_four.py"
