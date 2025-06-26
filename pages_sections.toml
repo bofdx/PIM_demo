@@ -14,10 +14,10 @@ name = "Chance of Development"
 icon = "🎲"
 is_section = true
 
-# [[pages]]
-# path = ""
-# name = "Page 2"
-# icon = "🎈"
+[[pages]]
+path = "Page.py"
+name = "Page 2"
+icon = "🎈"
 
 # [[pages]]
 # path = "example_five.py"
