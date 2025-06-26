@@ -3,10 +3,10 @@ path = "dataloader.py"
 name = "Data Load"
 icon = "📊"
 
-# [[pages]]
-# name = "Cool apps"
-# icon = ":pig:"
-# is_section = true
+[[pages]]
+name = "Cool apps"
+icon = ":pig:"
+is_section = true
 
 # [[pages]]
 # path = "example_two.py"
