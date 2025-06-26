@@ -47,7 +47,7 @@ if upload_files:
 
         #Choose Specific Columns to Keep or Convert
         st.subheader("Select Columns to Convert")
-        columns = st.multiselect(f"Choose Columns for {file.name}",df.coloumns, default - df.columns)
+        columns = st.multiselect(f"Choose Columns for {file.name}",df.columns, default - df.columns)
         df = df[columns]
 
         # Create some simple visuals
