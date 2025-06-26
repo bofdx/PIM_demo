@@ -1,12 +1,12 @@
 [[pages]]
-path = "blank-app/main/dataloader.py"
-name = "Data Load"
-icon = "📊"
-
-[[pages]]
 name = "Cool apps"
 icon = "🧨"
 is_section = true
+
+[[pages]]
+path = "blank-app/main/dataloader.py"
+name = "Data Load"
+icon = "📊"
 
 [[pages]]
 path = "blank-app/main/page2.py"
