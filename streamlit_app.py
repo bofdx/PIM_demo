@@ -7,11 +7,15 @@ st.set_page_config(page_title="Metadata Loader", layout='wide')
 st.title("Metadata Loader")
 st.write("For uploading metadata into the database using the Excel template")
 
-upload_files = st.file_uploader("Upload your files (CSV or Excel):", type=["csv", "xlsx", "xlsm"], accept_multiple_files=True)
+upload_files = st.file_uploader(
+    "Upload your files (CSV or Excel):",
+    type=["csv", "xlsx", "xlsm"],
+    accept_multiple_files=True
+)
 
 if upload_files:
     for file in upload_files:
-        file_ext = os.path.splitext(file.name)[-1].lower() 
+        file_ext = os.path.splitext(file.name)[-1].lower()
         if file_ext == ".csv":
             df = pd.read_csv(file)
         elif file_ext in (".xlsx", ".xlsm"):
@@ -22,7 +26,7 @@ if upload_files:
 
         # Display name and file size
         st.write(f"**File Name:** {file.name}")
-        st.write(f"**File Size:** {file.size / 1024:.2f} KB") 
+        st.write(f"**File Size:** {file.size / 1024:.2f} KB")
 
         # Show 5 rows of our df
         st.write("Preview the head of the dataframe")
@@ -40,14 +44,13 @@ if upload_files:
 
             with col2:
                 if st.button(f"Fill Missing Values for {file.name}"):
-                    numeric_cols = df.select_dtypes(include=['number']).columns  
-                    df[numeric_cols] = df[numeric_cols].fillna(99999999)  
+                    numeric_cols = df.select_dtypes(include=['number']).columns
+                    df[numeric_cols] = df[numeric_cols].fillna(99999999)
                     st.write("Missing numeric values filled with 99999999")
 
-
-        #Choose Specific Columns to Keep or Convert
+        # Choose Specific Columns to Keep or Convert
         st.subheader("Select Columns to Convert")
-        columns = st.multiselect(f"Choose Columns for {file.name}",df.columns, default - df.columns)
+        columns = st.multiselect(f"Choose Columns for {file.name}", df.columns, default=list(df.columns))
         df = df[columns]
 
         # Create some simple visuals
@@ -55,6 +58,6 @@ if upload_files:
         if st.checkbox(f"Show Visual for {file.name}"):
             numeric_df = df.select_dtypes(include='number')
             if numeric_df.shape[1] >= 3:
-                st.bar_chart(numeric_df.iloc[:, 1:3])  # Plots columns 2 and 3 (0-based index)
+                st.bar_chart(numeric_df.iloc[:, 1:3])
             else:
                 st.warning("Not enough numeric columns to display columns 2 and 3.")
