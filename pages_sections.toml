@@ -1,5 +1,5 @@
 [[pages]]
-path = "dataload.py"
+path = "dataloader.py"
 name = "Data Load"
 icon = "📊"
 
