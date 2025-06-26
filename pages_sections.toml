@@ -1,6 +1,6 @@
 [[pages]]
-name = "Cool apps"
-icon = "🧨"
+name = "Data Management"
+icon = st.markdown("Search :material/Settings:")
 is_section = true
 
 [[pages]]
