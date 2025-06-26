@@ -11,8 +11,7 @@ upload_files = st.file_uploader("Upload your files (CSV or Excel):", type=["csv"
 
 if upload_files:
     for file in upload_files:
-        file_ext = os.path.splitext(file.name)[-1].lower()  # <-- FIXED: added parentheses to .lower()
-
+        file_ext = os.path.splitext(file.name)[-1].lower() 
         if file_ext == ".csv":
             df = pd.read_csv(file)
         elif file_ext in (".xlsx", ".xlsm"):
@@ -23,7 +22,7 @@ if upload_files:
 
         # Display name and file size
         st.write(f"**File Name:** {file.name}")
-        st.write(f"**File Size:** {file.size / 1024:.2f} KB")  # <-- FIXED: typo in "wrtie"
+        st.write(f"**File Size:** {file.size / 1024:.2f} KB") 
 
         # Show 5 rows of our df
         st.write("Preview the head of the dataframe")
@@ -31,7 +30,7 @@ if upload_files:
 
         # Options for data cleaning
         st.subheader("Data Cleaning Options")
-        if st.checkbox(f"Clean Data for {file.name}"):  # <-- FIXED: changed 'file_name' to 'file.name'
+        if st.checkbox(f"Clean Data for {file.name}"):
             col1, col2 = st.columns(2)
 
             with col1:
@@ -41,14 +40,14 @@ if upload_files:
 
             with col2:
                 if st.button(f"Fill Missing Values for {file.name}"):
-                    numeric_cols = df.select_dtypes(include=['number']).columns  # <-- FIXED: 'numbers' -> 'number'
-                    df[numeric_cols] = df[numeric_cols].fillna(99999999)  # <-- FIXED: value mismatch
+                    numeric_cols = df.select_dtypes(include=['number']).columns  
+                    df[numeric_cols] = df[numeric_cols].fillna(99999999)  
                     st.write("Missing numeric values filled with 99999999")
 
 
         #Choose Specific Columns to Keep or Convert
         st.subheader("Select Columns to Convert")
-        columns = st.multiselect(f"Choose Columns for {file_name}",df.coloumns, default - df.columns)
+        columns = st.multiselect(f"Choose Columns for {file.name}",df.coloumns, default - df.columns)
         df = df[columns]
 
         # Create some simple visuals
