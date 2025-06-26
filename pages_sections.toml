@@ -4,12 +4,12 @@ icon = "🧨"
 is_section = true
 
 [[pages]]
-path = "blank-app/main/dataloader.py"
+path = "dataloader.py"
 name = "Data Load"
 icon = "📊"
 
 [[pages]]
-path = "blank-app/main/page2.py"
+path = "page2.py"
 name = "Page 2"
 icon = "🎈"
 
