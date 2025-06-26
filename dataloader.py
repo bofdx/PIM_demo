@@ -2,7 +2,6 @@ import streamlit as st
 import pandas as pd
 import os
 
-st.title("Metadata Loader")
 st.write("For uploading metadata into the database using the Excel template")
 
 
