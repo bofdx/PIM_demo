@@ -15,7 +15,7 @@ icon = "🎲"
 is_section = true
 
 [[pages]]
-path = "dataloader_devchance.py"
+path = "dataloader_dev_chance.py"
 name = "Data Loading"
 icon = "⚡"
 
