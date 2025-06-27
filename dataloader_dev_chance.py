@@ -54,8 +54,6 @@ if upload_files:
         # Create some simple visuals
         st.subheader("Data Visuals")
         if st.checkbox(f"Show Visual for {file.name}"):
-            numeric_df = df.select_dtypes(include='number')
-            if numeric_df.shape[1] >= 3:
-                st.bar_chart(numeric_df.iloc[:, 1:3])
+                st.bar_chart(df.iloc[:, 2:3])
             else:
                 st.warning("Not enough numeric columns to display columns 2 and 3.")
