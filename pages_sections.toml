@@ -15,9 +15,9 @@ icon = "🎲"
 is_section = true
 
 [[pages]]
-path = "page2.py"
-name = "Page 2"
-icon = "🎈"
+path = "dataloader_devchance.py"
+name = "Data Loading"
+icon = "⚡"
 
 # [[pages]]
 # path = "example_five.py"
