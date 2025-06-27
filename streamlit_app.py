@@ -10,7 +10,7 @@ sections = st.sidebar.toggle('Sections', value = True, key = 'use_sections')
 
 nav = get_nav_from_toml("pages_sections.toml" if sections else "pages.toml")
 
-st.logo("LOGO.PNG", use_container_width=True)
+st.logo("LOGO.PNG")
 
 pg = st.navigation(nav)
 
