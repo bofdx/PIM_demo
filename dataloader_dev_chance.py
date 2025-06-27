@@ -46,14 +46,14 @@ if upload_files:
                     df[numeric_cols] = df[numeric_cols].fillna(99999999)
                     st.write("Missing numeric values filled with 99999999")
 
-        # # Choose Specific Columns to Keep or Convert
-        # st.subheader("Select Columns to Convert")
-        # columns = st.multiselect(f"Choose Columns for {file.name}", df.columns, default=list(df.columns))
-        # df = df[columns]
-
-        # Create some simple visuals
-        st.subheader("Data Visuals")
-        if st.checkbox(f"Show Visual for {file.name}"):
-                st.bar_chart(df.set_index("Column_B")["Column_D"])
-            else:
-                st.warning("Not enough numeric columns to display columns 2 and 3.")
+        # Choose Specific Columns to Keep or Convert
+        st.subheader("Select Columns to Convert")
+        columns = st.multiselect(f"Choose Columns for {file.name}", df.columns, default=list(df.columns))
+        df = df[columns]
+            
+        # # Create some simple visuals
+        # st.subheader("Data Visuals")
+        # if st.checkbox(f"Show Visual for {file.name}"):
+        #         st.bar_chart(df.set_index("Column_B")["Column_D"])
+        #     else:
+        #         st.warning("Not enough numeric columns to display columns 2 and 3.")
