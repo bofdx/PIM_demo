@@ -33,6 +33,15 @@ if upload_files:
         st.write("Preview the head of the dataframe")
         st.dataframe(df_load.head())
 
+        if 'period' not in df_load.columns:
+            period_value = st.text_input("Enter a value for 'period':")
+
+        if period_value:
+            df_load['period'] = period_value
+            st.success(f"'period' column created with value: {period_value}")
+        else:
+            st.warning("Please enter a value for 'period' to proceed.")
+
         # Add a UUID column
         df_load["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df_load))]
 
