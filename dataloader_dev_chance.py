@@ -15,7 +15,7 @@ if upload_files:
     for file in upload_files:
         file_ext = os.path.splitext(file.name)[-1].lower()
         if file_ext == ".csv":
-            df = pd.read_csv(file,sheet_name= "Template", header = 1)
+            df = pd.read_csv(file, header = 1)
         elif file_ext in (".xlsx", ".xlsm"):
             df = pd.read_excel(file,sheet_name= "Template", header = 1)
         else:
