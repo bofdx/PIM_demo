@@ -31,15 +31,15 @@ if upload_files:
         st.write("Preview the head of the dataframe")
         st.dataframe(df_load.head())
 
-        # Add a UUID column
-        df_load["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df_data_load_2))]
+        # # Add a UUID column
+        # df_load["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df_data_load_2))]
 
-        # Ensure column order matches the SQLite metadata table
-        expected_cols = ['dev_chance_id', 'period', 'project','associated_rmus','net_2c_mmboe','p_tech','p_fin','p_time','p_econ','p_mark','p_inf','p_ext','commitment','odp_phase','comment','hub']
+        # # Ensure column order matches the SQLite metadata table
+        # expected_cols = ['dev_chance_id', 'period', 'project','associated_rmus','net_2c_mmboe','p_tech','p_fin','p_time','p_econ','p_mark','p_inf','p_ext','commitment','odp_phase','comment','hub']
 
-        df_load = df_load[expected_cols]
+        # df_load = df_load[expected_cols]
 
-        st.dataframe(df_load.head())
+        # st.dataframe(df_load.head())
         
         
         # Options for data cleaning
