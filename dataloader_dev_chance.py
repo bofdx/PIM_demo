@@ -33,7 +33,7 @@ if upload_files:
         st.dataframe(df_load.head())
 
         # Add a UUID column
-        df_load["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df_data_load_2))]
+        df_load["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df_load))]
 
         # Ensure column order matches the SQLite metadata table
         expected_cols = ['dev_chance_id', 'period', 'project','associated_rmus','net_2c_mmboe','p_tech','p_fin','p_time','p_econ','p_mark','p_inf','p_ext','commitment','odp_phase','comment','hub']
