@@ -16,9 +16,9 @@ if upload_files:
     for file in upload_files:
         file_ext = os.path.splitext(file.name)[-1].lower()
         if file_ext == ".csv":
-            df_load = pd.read_csv(file, header =1)
+            df_load = pd.read_csv(file, header =2)
         elif file_ext in (".xlsx", ".xlsm"):
-            df_load = pd.read_excel(file,sheet_name= "Template", header =1)
+            df_load = pd.read_excel(file,sheet_name= "Template", header =2)
         else:
             st.error(f"Unsupported file type: {file_ext}")
             continue
