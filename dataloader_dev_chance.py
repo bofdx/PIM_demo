@@ -15,9 +15,9 @@ if upload_files:
     for file in upload_files:
         file_ext = os.path.splitext(file.name)[-1].lower()
         if file_ext == ".csv":
-            df = pd.read_csv(file)
+            df = pd.read_csv(file,sheet_name= "Template", header = 1)
         elif file_ext in (".xlsx", ".xlsm"):
-            df = pd.read_excel(file)
+            df = pd.read_excel(file,sheet_name= "Template", header = 1)
         else:
             st.error(f"Unsupported file type: {file_ext}")
             continue
@@ -46,14 +46,3 @@ if upload_files:
                     df[numeric_cols] = df[numeric_cols].fillna(99999999)
                     st.write("Missing numeric values filled with 99999999")
 
-        # Choose Specific Columns to Keep or Convert
-        st.subheader("Select Columns to Convert")
-        columns = st.multiselect(f"Choose Columns for {file.name}", df.columns, default=list(df.columns))
-        df = df[columns]
-            
-        # # Create some simple visuals
-        # st.subheader("Data Visuals")
-        # if st.checkbox(f"Show Visual for {file.name}"):
-        #         st.bar_chart(df.set_index("Column_B")["Column_D"])
-        #     else:
-        #         st.warning("Not enough numeric columns to display columns 2 and 3.")
