@@ -1,5 +1,6 @@
 import streamlit as st
 import pandas as pd
+import uuid
 import os
 
 st.write("For uploading metadata into the database using the Excel template")
