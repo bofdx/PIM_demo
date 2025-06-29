@@ -15,12 +15,17 @@ if upload_files:
     for file in upload_files:
         file_ext = os.path.splitext(file.name)[-1].lower()
         if file_ext == ".csv":
-            df = pd.read_csv(file, header = 1)
+            df_load = pd.read_csv(file, header =None)
         elif file_ext in (".xlsx", ".xlsm"):
-            df = pd.read_excel(file,sheet_name= "Template", header = 1)
+            df_load = pd.read_excel(file,sheet_name= "Template", header =None)
         else:
             st.error(f"Unsupported file type: {file_ext}")
             continue
+
+          # Use second row (index 1) as header
+        df_load.columns = df_load.iloc[1]
+        df_load = df_load[2:]  # Drop first two rows
+        df_load.reset_index(drop=True, inplace=True)
 
         # Display name and file size
         st.write(f"**File Name:** {file.name}")
@@ -28,7 +33,7 @@ if upload_files:
 
         # Show 5 rows of our df
         st.write("Preview the head of the dataframe")
-        st.dataframe(df.head())
+        st.dataframe(df_load.head())
 
         # Options for data cleaning
         st.subheader("Data Cleaning Options")
@@ -37,12 +42,12 @@ if upload_files:
 
             with col1:
                 if st.button(f"Remove Duplicates from {file.name}"):
-                    df.drop_duplicates(inplace=True)
+                    df_load.drop_duplicates(inplace=True)
                     st.write("Duplicates removed!")
 
             with col2:
                 if st.button(f"Fill Missing Values for {file.name}"):
                     numeric_cols = df.select_dtypes(include=['number']).columns
-                    df[numeric_cols] = df[numeric_cols].fillna(99999999)
+                    df_load[numeric_cols] = df_load[numeric_cols].fillna(99999999)
                     st.write("Missing numeric values filled with 99999999")
 
