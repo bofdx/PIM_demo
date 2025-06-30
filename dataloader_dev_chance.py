@@ -78,7 +78,6 @@ if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
         cursor = connection.cursor()
 
         # SQLite pragmas
-        cursor.execute("PRAGMA strict = ON")       # Enforce type constraints (SQLite 3.37+)
         cursor.execute("PRAGMA foreign_keys = ON") # Enforce FK constraints
 
         # SQL insert
