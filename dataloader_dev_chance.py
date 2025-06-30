@@ -38,7 +38,7 @@ if upload_files:
             # Ask for 'period' only if it's missing
             if 'period' not in df_load.columns:
                 period_key = f"period_input_{file.name}"
-                period_value = st.text_input(f"Enter a value for 'period' in {file.name}:", key=period_key)
+                period_value = st.text_input(f" Please enter the 'period' for {file.name} as it is missing", key=period_key)
 
                 if period_value:
                     df_load['period'] = period_value
