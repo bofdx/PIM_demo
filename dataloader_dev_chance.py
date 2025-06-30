@@ -86,7 +86,7 @@ if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
         INSERT INTO dev_chance ({', '.join(expected_cols)})
         VALUES ({', '.join(['?' for _ in expected_cols])})
         """
-        cursor.executemany(insert_sql_2, df_data_load_2.values.tolist())
+        cursor.executemany(insert_sql_2, df_load.values.tolist())
 
         connection.commit()
         connection.close()
