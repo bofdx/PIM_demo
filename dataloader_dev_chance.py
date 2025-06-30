@@ -55,7 +55,7 @@ if upload_files:
                 # Reorder columns
                 df = df[[col for col in expected_cols if col in df.columns]]
 
-                st.markdown("### Data Preview")
+                st.markdown("### Data Editor")
                 df = st.data_editor(df, num_rows="dynamic", use_container_width=True)
 
                 # Commit button inside this tab
