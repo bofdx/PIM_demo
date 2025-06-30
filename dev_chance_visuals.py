@@ -18,6 +18,9 @@ if st.button("View All Data in dev_chance"):
     except Exception as e:
         st.error(f"Error reading from DB: {e}")
 
-st.subheader("Probability of Development")
-st.bar_chart(full_df,x="project", y ="pd", color = "odp_phase", height = 600, x_label = "Project", y_label = "Probability Development ", use_container_width=True)
+if full_df is empty then
+    st.write("No Data To Display")
+elif
+    st.subheader("Probability of Development")
+    st.bar_chart(full_df,x="project", y ="pd", color = "odp_phase", height = 600, x_label = "Project", y_label = "Probability Development ", use_container_width=True)
 
