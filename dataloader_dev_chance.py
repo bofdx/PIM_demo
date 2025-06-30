@@ -63,18 +63,23 @@ if upload_files:
                 # Commit button inside this tab
                 if st.button(f"Commit '{file.name}' to Database", key=f"commit_{file.name}"):
                     try:
-                        connection = sqlite3.connect("PIM3.db")
-                        cursor = connection.cursor()
-                        cursor.execute("PRAGMA foreign_keys = ON")
-
-                        insert_sql = f"""
-                        INSERT INTO dev_chance ({', '.join(df.columns)})
-                        VALUES ({', '.join(['?' for _ in df.columns])})
-                        """
-                        cursor.executemany(insert_sql, df.values.tolist())
-                        connection.commit()
-                        st.success(f"✅ '{file.name}' committed to PIM3.db successfully")
-
+                        # Validation: Check for blanks except 'comment'
+                        cols_to_check = [col for col in df.columns if col != 'comment']
+                        if df[cols_to_check].isnull().any().any():
+                            st.error("❌ Cannot commit. One or more required fields are blank (excluding 'comment').")
+                        else:
+                            connection = sqlite3.connect("PIM3.db")
+                            cursor = connection.cursor()
+                            cursor.execute("PRAGMA foreign_keys = ON")
+                
+                            insert_sql = f"""
+                            INSERT INTO dev_chance ({', '.join(df.columns)})
+                            VALUES ({', '.join(['?' for _ in df.columns])})
+                            """
+                            cursor.executemany(insert_sql, df.values.tolist())
+                            connection.commit()
+                            st.success(f"✅ '{file.name}' committed to PIM3.db successfully")
+                
                     except sqlite3.IntegrityError as e:
                         st.error(f"❌ IntegrityError: {e}")
                     except sqlite3.Error as e:
@@ -82,7 +87,8 @@ if upload_files:
                     except Exception as e:
                         st.error(f"❌ Unexpected Error: {e}")
                     finally:
-                        connection.close()
+                        if 'connection' in locals():
+            connection.close()
 
             except Exception as e:
                 st.error(f"Unhandled error processing {file.name}: {e}")
