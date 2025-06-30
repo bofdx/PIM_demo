@@ -35,10 +35,6 @@ if upload_files:
                 st.error(f"Unsupported file type: {file_ext}")
                 continue
 
-            st.write(f"**File Name:** {file.name}")
-            st.write(f"**File Size:** {file.size / 1024:.2f} KB")
-            st.dataframe(df_load.head())
-
             # Ask for 'period' only if it's missing
             if 'period' not in df_load.columns:
                 period_key = f"period_input_{file.name}"
