@@ -49,23 +49,15 @@ if upload_files:
         expected_cols = ['dev_chance_id', 'period', 'project','associated_rmus','net_2c_mmboe','p_tech','p_fin','p_time','p_econ','p_mark','p_inf','p_ext','commitment','odp_phase','comment','hub']
 
         df_load = df_load[expected_cols]
+        # Define the probability columns
+        probability_cols = ['p_tech', 'p_fin', 'p_time', 'p_econ', 'p_mark', 'p_inf', 'p_ext']
+        # Row-wise minimum of probability columns
+        df_load['min_chance'] = df_load[probability_cols].min(axis=1)      
+        # Row-wise average of probability columns
+        df_load['pd_ave'] = df_load[probability_cols].mean(axis=1) * df_load['commitment']
+
 
         st.dataframe(df_load.head())
         
-        
-        # Options for data cleaning
-        st.subheader("Data Cleaning Options")
-        if st.checkbox(f"Clean Data for {file.name}"):
-            col1, col2 = st.columns(2)
 
-            with col1:
-                if st.button(f"Remove Duplicates from {file.name}"):
-                    df_load.drop_duplicates(inplace=True)
-                    st.write("Duplicates removed!")
-
-            with col2:
-                if st.button(f"Fill Missing Values for {file.name}"):
-                    numeric_cols = df.select_dtypes(include=['number']).columns
-                    df_load[numeric_cols] = df_load[numeric_cols].fillna(99999999)
-                    st.write("Missing numeric values filled with 99999999")
 
