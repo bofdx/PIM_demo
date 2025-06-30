@@ -39,9 +39,6 @@ if upload_files:
                     st.error(f"Unsupported file type: {file_ext}")
                     continue
 
-                st.subheader(f"📄 File: {file.name}")
-                st.write(f"**Size:** {file.size / 1024:.2f} KB")
-
                 # If 'period' missing, ask user to input
                 if 'period' not in df.columns:
                     period_key = f"period_{file.name}"
@@ -52,7 +49,6 @@ if upload_files:
                     else:
                         st.warning("Please enter a value for 'period' to continue.")
                         
-
                 # Add UUIDs
                 df["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
 
