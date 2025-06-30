@@ -4,7 +4,7 @@ import pandas as pd
 import uuid
 import os
 
-st.title("Metadata Loader for PIM3")
+
 st.write("Upload your Excel or CSV files using the provided template format.")
 
 # Expected columns
@@ -18,6 +18,8 @@ upload_files = st.file_uploader(
     type=["csv", "xlsx", "xlsm"],
     accept_multiple_files=True
 )
+
+st.write("Please check each data extract individually before committing it to the database.")
 
 # UI for per-file workflow
 if upload_files:
@@ -57,7 +59,7 @@ if upload_files:
                 # Reorder columns
                 df = df[[col for col in expected_cols if col in df.columns]]
 
-                st.markdown("### Final Preview Before Commit")
+                st.markdown("### Data Preview")
                 st.dataframe(df.head(20))
 
                 # Commit button inside this tab
