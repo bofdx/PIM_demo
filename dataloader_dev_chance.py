@@ -67,9 +67,7 @@ if st.session_state["dataframes"]:
     for tab, name in zip(tabs, tab_titles):
         with tab:
             st.subheader(f"Preview: {name}")
-            st.dataframe(st.session_state["dataframes"][name].head(20))
-
-# Commit to DB
+            # Commit to DB
 if st.button("Commit to Database"):
     if not st.session_state["dataframes"]:
         st.warning("No data to commit. Please upload and complete all required fields.")
@@ -97,6 +95,10 @@ if st.button("Commit to Database"):
             st.error(f"Unexpected Error: {e}")
         finally:
             connection.close()
+            
+            st.dataframe(st.session_state["dataframes"][name].head(20))
+
+
 
 # View committed data
 if st.button("View Data"):
