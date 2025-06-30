@@ -1,3 +1,4 @@
+import sqlite3
 import streamlit as st
 import pandas as pd
 import uuid
@@ -23,9 +24,8 @@ if upload_files:
             st.error(f"Unsupported file type: {file_ext}")
             continue
 
-    
+   
         # Display name and file size
-        st.write('dev chance version test line to be removed')
         st.write(f"**File Name:** {file.name}")
         st.write(f"**File Size:** {file.size / 1024:.2f} KB")
 
@@ -49,15 +49,49 @@ if upload_files:
         expected_cols = ['dev_chance_id', 'period', 'project','associated_rmus','net_2c_mmboe','p_tech','p_fin','p_time','p_econ','p_mark','p_inf','p_ext','commitment','odp_phase','comment','hub']
 
         df_load = df_load[expected_cols]
-        # Define the probability columns
-        probability_cols = ['p_tech', 'p_fin', 'p_time', 'p_econ', 'p_mark', 'p_inf', 'p_ext']
-        # Row-wise minimum of probability columns
-        df_load['min_chance'] = df_load[probability_cols].min(axis=1)      
-        # Row-wise average of probability columns
-        df_load['pd_ave'] = df_load[probability_cols].mean(axis=1) * df_load['commitment']
-
 
         st.dataframe(df_load.head())
+        
+        # # Define the probability columns
+        # probability_cols = ['p_tech', 'p_fin', 'p_time', 'p_econ', 'p_mark', 'p_inf', 'p_ext']
+        # # Row-wise minimum of probability columns
+        # df_load['min_chance'] = df_load[probability_cols].min(axis=1)      
+        # # Row-wise average of probability columns
+        # df_load['pd_ave'] = df_load[probability_cols].mean(axis=1) * df_load['commitment']
+        
+# Gold button using HTML and unsafe_allow_html
+st.markdown("""
+    <style>
+    .gold-button > button {
+        background-color: gold !important;
+        color: black !important;
+        font-weight: bold;
+    }
+    </style>
+""", unsafe_allow_html=True)
+
+# Display the button
+if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
+    if st.button("Commit to Database"):
+        # Create database
+        connection = sqlite3.connect("PIM.db")
+        cursor = connection.cursor()
+
+        # SQLite pragmas
+        cursor.execute("PRAGMA strict = ON")       # Enforce type constraints (SQLite 3.37+)
+        cursor.execute("PRAGMA foreign_keys = ON") # Enforce FK constraints
+
+        # SQL insert
+        insert_sql_2 = f"""
+        INSERT INTO dev_chance ({', '.join(expected_cols)})
+        VALUES ({', '.join(['?' for _ in expected_cols])})
+        """
+        cursor.executemany(insert_sql_2, df_data_load_2.values.tolist())
+
+        connection.commit()
+        connection.close()
+
+        st.success("Data committed to PIM.db successfully ✅")
         
 
 
