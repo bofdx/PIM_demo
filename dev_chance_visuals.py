@@ -7,7 +7,8 @@ connection = sqlite3.connect("PIM3.db")
 full_df = pd.read_sql_query("SELECT * FROM dev_chance", connection)
 connection.close()
 
-full_df['Pd'] = full_df[ 'p_tech', 'p_fin', 'p_time', 'p_econ', 'p_mark', 'p_inf', 'p_ext'].mean(axis = 1)*full_df['commitment']
+cols = ['p_tech', 'p_fin', 'p_time', 'p_econ', 'p_mark', 'p_inf', 'p_ext']
+full_df['Pd'] = full_df[cols].mean(axis=1) * full_df['commitment']
 
 if st.button("View All Data in dev_chance"):
     try:
