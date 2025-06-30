@@ -7,105 +7,94 @@ import os
 st.title("Metadata Loader for PIM3")
 st.write("Upload your Excel or CSV files using the provided template format.")
 
-# State holders
-if "dataframes" not in st.session_state:
-    st.session_state["dataframes"] = {}
+# Expected columns
+expected_cols = ['dev_chance_id', 'period', 'project', 'associated_rmus', 'net_2c_mmboe',
+                 'p_tech', 'p_fin', 'p_time', 'p_econ', 'p_mark', 'p_inf', 'p_ext',
+                 'commitment', 'odp_phase', 'comment', 'hub']
 
+# File upload
 upload_files = st.file_uploader(
     "Upload your files (CSV or Excel):",
     type=["csv", "xlsx", "xlsm"],
     accept_multiple_files=True
 )
 
-# Expected structure
-expected_cols = ['dev_chance_id', 'period', 'project', 'associated_rmus', 'net_2c_mmboe',
-                 'p_tech', 'p_fin', 'p_time', 'p_econ', 'p_mark', 'p_inf', 'p_ext',
-                 'commitment', 'odp_phase', 'comment', 'hub']
-
+# UI for per-file workflow
 if upload_files:
-    for file in upload_files:
-        file_ext = os.path.splitext(file.name)[-1].lower()
-
-        try:
-            if file_ext == ".csv":
-                df_load = pd.read_csv(file, header=2)
-            elif file_ext in (".xlsx", ".xlsm"):
-                df_load = pd.read_excel(file, sheet_name="Template", header=2)
-            else:
-                st.error(f"Unsupported file type: {file_ext}")
-                continue
-
-            # Ask for 'period' only if it's missing
-            if 'period' not in df_load.columns:
-                period_key = f"period_input_{file.name}"
-                period_value = st.text_input(f" Please enter the 'period' for {file.name} as it is missing", key=period_key)
-
-                if period_value:
-                    df_load['period'] = period_value
-                    st.success(f"'period' column created with value: {period_value}")
-                else:
-                    st.warning(f"Waiting for 'period' input for {file.name}. Skipping this file.")
-                    continue  # Don't proceed with this file until period is entered
-
-            # Add UUIDs
-            df_load["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df_load))]
-
-            # Ensure column alignment
-            df_load = df_load[[col for col in expected_cols if col in df_load.columns]]
-
-            # Store in session state for commit later
-            st.session_state["dataframes"][file.name] = df_load
-
-        except Exception as e:
-            st.error(f"Error processing {file.name}: {e}")
-
-# Show each file's preview in its own tab
-if st.session_state["dataframes"]:
-    tab_titles = list(st.session_state["dataframes"].keys())
+    tab_titles = [file.name for file in upload_files]
     tabs = st.tabs(tab_titles)
 
-    for tab, name in zip(tabs, tab_titles):
+    for file, tab in zip(upload_files, tabs):
         with tab:
-            st.subheader(f"Preview: {name}")
-            # Commit to DB
-            if st.button("Commit to Database"):
-                if not st.session_state["dataframes"]:
-                    st.warning("No data to commit. Please upload and complete all required fields.")
+            try:
+                file_ext = os.path.splitext(file.name)[-1].lower()
+
+                if file_ext == ".csv":
+                    df = pd.read_csv(file, header=2)
+                elif file_ext in (".xlsx", ".xlsm"):
+                    df = pd.read_excel(file, sheet_name="Template", header=2)
                 else:
+                    st.error(f"Unsupported file type: {file_ext}")
+                    continue
+
+                st.subheader(f"📄 File: {file.name}")
+                st.write(f"**Size:** {file.size / 1024:.2f} KB")
+                st.dataframe(df.head())
+
+                # If 'period' missing, ask user to input
+                if 'period' not in df.columns:
+                    period_key = f"period_{file.name}"
+                    period_value = st.text_input("Enter a value for 'period':", key=period_key)
+                    if period_value:
+                        df['period'] = period_value
+                        st.success(f"'period' column added with value: {period_value}")
+                    else:
+                        st.warning("Please enter a value for 'period' to continue.")
+                        st.stop()
+
+                # Add UUIDs
+                df["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
+
+                # Reorder columns
+                df = df[[col for col in expected_cols if col in df.columns]]
+
+                st.markdown("### Final Preview Before Commit")
+                st.dataframe(df.head(20))
+
+                # Commit button inside this tab
+                if st.button(f"Commit '{file.name}' to Database", key=f"commit_{file.name}"):
                     try:
                         connection = sqlite3.connect("PIM3.db")
                         cursor = connection.cursor()
                         cursor.execute("PRAGMA foreign_keys = ON")
-            
-                        for name, df in st.session_state["dataframes"].items():
-                            insert_sql = f"""
-                            INSERT INTO dev_chance ({', '.join(df.columns)})
-                            VALUES ({', '.join(['?' for _ in df.columns])})
-                            """
-                            cursor.executemany(insert_sql, df.values.tolist())
-            
+
+                        insert_sql = f"""
+                        INSERT INTO dev_chance ({', '.join(df.columns)})
+                        VALUES ({', '.join(['?' for _ in df.columns])})
+                        """
+                        cursor.executemany(insert_sql, df.values.tolist())
                         connection.commit()
-                        st.success("Data committed to PIM3.db successfully ✅")
-            
+                        st.success(f"✅ '{file.name}' committed to PIM3.db successfully")
+
                     except sqlite3.IntegrityError as e:
-                        st.error(f"Database IntegrityError: {e}")
+                        st.error(f"❌ IntegrityError: {e}")
                     except sqlite3.Error as e:
-                        st.error(f"Database Error: {e}")
+                        st.error(f"❌ SQLite Error: {e}")
                     except Exception as e:
-                        st.error(f"Unexpected Error: {e}")
+                        st.error(f"❌ Unexpected Error: {e}")
                     finally:
                         connection.close()
-            
-            st.dataframe(st.session_state["dataframes"][name].head(20))
 
+            except Exception as e:
+                st.error(f"Unhandled error processing {file.name}: {e}")
 
-
-# View committed data
-if st.button("View Data"):
+# View full table
+if st.button("View All Data in dev_chance"):
     try:
         connection = sqlite3.connect("PIM3.db")
-        datapreview = pd.read_sql_query("SELECT * FROM dev_chance", connection)
+        full_df = pd.read_sql_query("SELECT * FROM dev_chance", connection)
         connection.close()
-        st.dataframe(datapreview)
+        st.subheader("📊 All Data in dev_chance Table")
+        st.dataframe(full_df)
     except Exception as e:
-        st.error(f"Failed to load data: {e}")
+        st.error(f"Error reading from DB: {e}")
