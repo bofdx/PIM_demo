@@ -49,7 +49,7 @@ if upload_files:
                         st.success(f"'period' column added with value: {period_value}")
                     else:
                         st.warning("Please enter a value for 'period' to continue.")
-                        st.stop()
+                        
 
                 # Add UUIDs
                 df["dev_chance_id"] = [str(uuid.uuid4()) for _ in range(len(df))]
