@@ -88,7 +88,7 @@ if upload_files:
                         st.error(f"❌ Unexpected Error: {e}")
                     finally:
                         if 'connection' in locals():
-            connection.close()
+                            connection.close()
 
             except Exception as e:
                 st.error(f"Unhandled error processing {file.name}: {e}")
