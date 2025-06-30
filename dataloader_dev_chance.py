@@ -68,33 +68,33 @@ if st.session_state["dataframes"]:
         with tab:
             st.subheader(f"Preview: {name}")
             # Commit to DB
-if st.button("Commit to Database"):
-    if not st.session_state["dataframes"]:
-        st.warning("No data to commit. Please upload and complete all required fields.")
-    else:
-        try:
-            connection = sqlite3.connect("PIM3.db")
-            cursor = connection.cursor()
-            cursor.execute("PRAGMA foreign_keys = ON")
-
-            for name, df in st.session_state["dataframes"].items():
-                insert_sql = f"""
-                INSERT INTO dev_chance ({', '.join(df.columns)})
-                VALUES ({', '.join(['?' for _ in df.columns])})
-                """
-                cursor.executemany(insert_sql, df.values.tolist())
-
-            connection.commit()
-            st.success("Data committed to PIM3.db successfully ✅")
-
-        except sqlite3.IntegrityError as e:
-            st.error(f"Database IntegrityError: {e}")
-        except sqlite3.Error as e:
-            st.error(f"Database Error: {e}")
-        except Exception as e:
-            st.error(f"Unexpected Error: {e}")
-        finally:
-            connection.close()
+            if st.button("Commit to Database"):
+                if not st.session_state["dataframes"]:
+                    st.warning("No data to commit. Please upload and complete all required fields.")
+                else:
+                    try:
+                        connection = sqlite3.connect("PIM3.db")
+                        cursor = connection.cursor()
+                        cursor.execute("PRAGMA foreign_keys = ON")
+            
+                        for name, df in st.session_state["dataframes"].items():
+                            insert_sql = f"""
+                            INSERT INTO dev_chance ({', '.join(df.columns)})
+                            VALUES ({', '.join(['?' for _ in df.columns])})
+                            """
+                            cursor.executemany(insert_sql, df.values.tolist())
+            
+                        connection.commit()
+                        st.success("Data committed to PIM3.db successfully ✅")
+            
+                    except sqlite3.IntegrityError as e:
+                        st.error(f"Database IntegrityError: {e}")
+                    except sqlite3.Error as e:
+                        st.error(f"Database Error: {e}")
+                    except Exception as e:
+                        st.error(f"Unexpected Error: {e}")
+                    finally:
+                        connection.close()
             
             st.dataframe(st.session_state["dataframes"][name].head(20))
 
