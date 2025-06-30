@@ -9,7 +9,7 @@ connection.close()
 
 cols = ['p_tech', 'p_fin', 'p_time', 'p_econ', 'p_mark', 'p_inf', 'p_ext']
 full_df['pd'] = full_df[cols].mean(axis=1) * full_df['commitment']
-full_df['p_min'] = full_df[cols].min(axis=1) * full_df['commitment']
+full_df['p_min'] = full_df[cols].min(axis=1)
 
 if st.button("View All Data in dev_chance"):
     try:
