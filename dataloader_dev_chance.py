@@ -71,7 +71,7 @@ st.markdown("""
 """, unsafe_allow_html=True)
 
 # Display the button
-if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
+#if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
     if st.button("Commit to Database"):
         # Create database
         connection = sqlite3.connect("PIM3.db")
@@ -92,5 +92,13 @@ if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
 
         st.success("Data committed to PIM.db successfully ✅")
         
+if st.button("View Data"):
+    connection = sqlite3.connect("PIM3.db")
+    cursor = connection.cursor()
+    datapreview = pd.read_sql_query("SELECT * FROM dev_chance", connection)
+    connection.close()  # Good practice
+
+    st.dataframe(datapreview)  # Use Streamlit to display the DataFrame
+
 
 
