@@ -39,7 +39,6 @@ if upload_files:
 
                 st.subheader(f"📄 File: {file.name}")
                 st.write(f"**Size:** {file.size / 1024:.2f} KB")
-                st.dataframe(df.head())
 
                 # If 'period' missing, ask user to input
                 if 'period' not in df.columns:
