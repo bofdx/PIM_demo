@@ -14,5 +14,6 @@ if st.button("View All Data in dev_chance"):
     except Exception as e:
         st.error(f"Error reading from DB: {e}")
 
-st.bar_chart(full_df,x="project", y ="p_tech", color = "odp_phase", height = 600)
+st.subheader("Probability of Technical Success")
+st.bar_chart(full_df,x="project", y ="p_tech", color = "odp_phase", height = 600,m x_label = "Project", y_label = "Probability of Technical Succes", use_container_width=True)
 
