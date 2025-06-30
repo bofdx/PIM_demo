@@ -62,7 +62,7 @@ if upload_files:
 
 if st.button("Commit to Database"):
     try:
-        connection = sqlite3.connect("PIM.db")
+        connection = sqlite3.connect("PIM3.db")
         cursor = connection.cursor()
 
         cursor.execute("PRAGMA foreign_keys = ON")
