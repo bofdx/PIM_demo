@@ -1,7 +1,7 @@
 
 [[pages]]
 name = "Portfolio Metadata"
-icon = "📊"
+icon = "💼"
 is_section = true
 
 [[pages]]
@@ -19,8 +19,8 @@ path = "dataloader_dev_chance.py"
 name = "Data Loading"
 icon = "⚡"
 
-# [[pages]]
-# path = "example_five.py"
-# name = "Example Five"
-# icon = "🧰"
-# url_path = "a_very_long_page_title"
+[[pages]]
+path = "dev_chance_visiuals.py"
+name = "Visualisation"
+icon = "📊"
+
