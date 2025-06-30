@@ -72,25 +72,25 @@ st.markdown("""
 
 # Display the button
 #if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
-    if st.button("Commit to Database"):
-        # Create database
-        connection = sqlite3.connect("PIM3.db")
-        cursor = connection.cursor()
+if st.button("Commit to Database"):
+    # Create database
+    connection = sqlite3.connect("PIM3.db")
+    cursor = connection.cursor()
 
-        # SQLite pragmas
-        cursor.execute("PRAGMA foreign_keys = ON") # Enforce FK constraints
+    # SQLite pragmas
+    cursor.execute("PRAGMA foreign_keys = ON") # Enforce FK constraints
 
-        # SQL insert
-        insert_sql_2 = f"""
-        INSERT INTO dev_chance ({', '.join(expected_cols)})
-        VALUES ({', '.join(['?' for _ in expected_cols])})
-        """
-        cursor.executemany(insert_sql_2, df_load.values.tolist())
+    # SQL insert
+    insert_sql_2 = f"""
+    INSERT INTO dev_chance ({', '.join(expected_cols)})
+    VALUES ({', '.join(['?' for _ in expected_cols])})
+    """
+    cursor.executemany(insert_sql_2, df_load.values.tolist())
 
-        connection.commit()
-        connection.close()
+    connection.commit()
+    connection.close()
 
-        st.success("Data committed to PIM.db successfully ✅")
+    st.success("Data committed to PIM.db successfully ✅")
         
 if st.button("View Data"):
     connection = sqlite3.connect("PIM3.db")
