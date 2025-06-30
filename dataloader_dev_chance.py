@@ -1,4 +1,4 @@
-import sqlite3
+  import sqlite3
 import streamlit as st
 import pandas as pd
 import uuid
@@ -30,6 +30,7 @@ if upload_files:
             try:
                 file_ext = os.path.splitext(file.name)[-1].lower()
                 df_key = f"df_{file.name}"
+                original_df_key = f"original_df_{file.name}"
 
                 # Load and process only if not already in session_state
                 if df_key not in st.session_state:
@@ -58,12 +59,18 @@ if upload_files:
                     # Reorder columns
                     df = df[[col for col in expected_cols if col in df.columns]]
 
-                    # Save processed df into session_state
-                    st.session_state[df_key] = df
-
-                # Pull from session_state
+                    # Store both original and editable copies
+                    st.session_state[original_df_key] = df.copy()
+                    st.session_state[df_key] = df.copy()
+               
+              # Pull from session_state
                 df = st.session_state[df_key]
 
+
+                if st.button("Reset Changes", key=f"reset_{file.name}")"
+                  st.session_state[df_key] = st.session_state[original_df_key].copy()
+                  df = st.sessions_state[df_key]
+                  st.success("Changes have been reset original upload,"
                 # Data editor UI
                 st.markdown("### Data Editor")
                 df = st.data_editor(
