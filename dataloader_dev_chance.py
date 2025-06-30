@@ -71,7 +71,9 @@ if upload_files:
                 editor_key = f"editor_{file.name}"
                 if f"{editor_key}_version" not in st.session_state:
                     st.session_state[f"{editor_key}_version"] = 0
-                
+
+                st.markdown("### Data Editor")
+              
                 # Reset button
                 if st.button("🔄 Reset Changes", key=f"reset_{file.name}"):
                     st.session_state[df_key] = st.session_state[original_df_key].copy()
@@ -80,7 +82,7 @@ if upload_files:
                     st.success("Changes have been reset to original upload.")
                 
                 # Data editor UI with dynamic key to force re-render
-                st.markdown("### Data Editor")
+               
                 df = st.data_editor(
                     df,
                     num_rows="dynamic",
