@@ -59,46 +59,34 @@ if upload_files:
         # # Row-wise average of probability columns
         # df_load['pd_ave'] = df_load[probability_cols].mean(axis=1) * df_load['commitment']
         
-# Gold button using HTML and unsafe_allow_html
-st.markdown("""
-    <style>
-    .gold-button > button {
-        background-color: gold !important;
-        color: black !important;
-        font-weight: bold;
-    }
-    </style>
-""", unsafe_allow_html=True)
 
-# Display the button
-#if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
-if st.button("Commit to Database"):
-    # Create database
-    connection = sqlite3.connect("PIM3.db")
-    cursor = connection.cursor()
-
-    # SQLite pragmas
-    cursor.execute("PRAGMA foreign_keys = ON") # Enforce FK constraints
-
-    # SQL insert
-    insert_sql_2 = f"""
-    INSERT INTO dev_chance ({', '.join(expected_cols)})
-    VALUES ({', '.join(['?' for _ in expected_cols])})
-    """
-    cursor.executemany(insert_sql_2, df_load.values.tolist())
-
-    connection.commit()
-    connection.close()
-
-    st.success("Data committed to PIM.db successfully ✅")
-        
-if st.button("View Data"):
-    connection = sqlite3.connect("PIM3.db")
-    cursor = connection.cursor()
-    datapreview = pd.read_sql_query("SELECT * FROM dev_chance", connection)
-    connection.close()  # Good practice
-
-    st.dataframe(datapreview)  # Use Streamlit to display the DataFrame
+    if st.button("Commit to Database"):
+        # Create database connection
+        connection = sqlite3.connect("PIM3.db")
+        cursor = connection.cursor()
+    
+        # SQLite pragmas
+        cursor.execute("PRAGMA foreign_keys = ON") # Enforce FK constraints
+    
+        # SQL insert
+        insert_sql_2 = f"""
+        INSERT INTO dev_chance ({', '.join(expected_cols)})
+        VALUES ({', '.join(['?' for _ in expected_cols])})
+        """
+        cursor.executemany(insert_sql_2, df_load.values.tolist())
+    
+        connection.commit()
+        connection.close()
+    
+        st.success("Data committed to PIM.db successfully ✅")
+            
+    if st.button("View Data"):
+        connection = sqlite3.connect("PIM3.db")
+        cursor = connection.cursor()
+        datapreview = pd.read_sql_query("SELECT * FROM dev_chance", connection)
+        connection.close()  # Good practice
+    
+        st.dataframe(datapreview)  # Use Streamlit to display the DataFrame
 
 
 
