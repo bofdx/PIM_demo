@@ -20,7 +20,7 @@ name = "Data Loading"
 icon = "⚡"
 
 [[pages]]
-path = "dev_chance_visiuals.py"
+path = "dev_chance_visuals.py"
 name = "Visualisation"
 icon = "📊"
 
