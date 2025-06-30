@@ -60,11 +60,18 @@ if upload_files:
             # Store in session state for commit later
             st.session_state["dataframes"][file.name] = df_load
 
-            st.write(f"Final Preview for {file.name}:")
-            st.dataframe(df_load.head())
+            #st.write(f"Final Preview for {file.name}:")
+           # st.dataframe(df_load.head())
 
         except Exception as e:
             st.error(f"Error processing {file.name}: {e}")
+
+# Show combined preview
+if st.session_state["dataframes"]:
+    combined_df = pd.concat(st.session_state["dataframes"].values(), ignore_index=True)
+    st.subheader("📋 Combined Final Preview of All Uploaded Files")
+    st.dataframe(combined_df.head(20))
+
 
 # Commit to DB
 if st.button("Commit to Database"):
