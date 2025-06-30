@@ -56,7 +56,7 @@ if upload_files:
                 df = df[[col for col in expected_cols if col in df.columns]]
 
                 st.markdown("### Data Editor")
-                df = st.data_editor(df, num_rows="dynamic", use_container_width=True, column_cofig={"dev_chance_id": st.column_config.Column(disabled=True)})
+                df = st.data_editor(df, num_rows="dynamic", use_container_width=True, column_config={"dev_chance_id": st.column_config.Column(disabled=True)})
 
                 # Commit button inside this tab
                 if st.button(f"Commit '{file.name}' to Database", key=f"commit_{file.name}"):
