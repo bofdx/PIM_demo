@@ -67,10 +67,12 @@ if upload_files:
                 df = st.session_state[df_key]
 
 
-                if st.button("Reset Changes", key=f"reset_{file.name}")
-                  st.session_state[df_key] = st.session_state[original_df_key].copy()
-                  df = st.session_state[df_key]
-                  st.success("Changes have been reset original upload")
+                # Reset button
+                if st.button("🔄 Reset Changes", key=f"reset_{file.name}"):
+                    st.session_state[df_key] = st.session_state[original_df_key].copy()
+                    df = st.session_state[df_key]
+                    st.success("Changes have been reset to original upload.")
+
                 # Data editor UI
                 st.markdown("### Data Editor")
                 df = st.data_editor(
