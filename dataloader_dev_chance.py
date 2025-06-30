@@ -60,25 +60,30 @@ if upload_files:
         # df_load['pd_ave'] = df_load[probability_cols].mean(axis=1) * df_load['commitment']
         
 
-    if st.button("Commit to Database"):
-        # Create database connection
-        connection = sqlite3.connect("PIM3.db")
+if st.button("Commit to Database"):
+    try:
+        connection = sqlite3.connect("PIM.db")
         cursor = connection.cursor()
-    
-        # SQLite pragmas
-        cursor.execute("PRAGMA foreign_keys = ON") # Enforce FK constraints
-    
-        # SQL insert
-        insert_sql_2 = f"""
+
+        cursor.execute("PRAGMA foreign_keys = ON")
+
+        insert_sql = f"""
         INSERT INTO dev_chance ({', '.join(expected_cols)})
         VALUES ({', '.join(['?' for _ in expected_cols])})
         """
-        cursor.executemany(insert_sql_2, df_load.values.tolist())
-    
+
+        cursor.executemany(insert_sql, df_data_load_2.values.tolist())
         connection.commit()
-        connection.close()
-    
         st.success("Data committed to PIM.db successfully ✅")
+
+    except sqlite3.IntegrityError as e:
+        st.error(f"Database IntegrityError: {e}")
+    except sqlite3.Error as e:
+        st.error(f"Database Error: {e}")
+    except Exception as e:
+        st.error(f"Unexpected Error: {e}")
+    finally:
+        connection.close()
             
     if st.button("View Data"):
         connection = sqlite3.connect("PIM3.db")
