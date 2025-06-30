@@ -74,7 +74,7 @@ st.markdown("""
 if st.container().markdown('<div class="gold-button">', unsafe_allow_html=True):
     if st.button("Commit to Database"):
         # Create database
-        connection = sqlite3.connect("PIM.db")
+        connection = sqlite3.connect("PIM3.db")
         cursor = connection.cursor()
 
         # SQLite pragmas
