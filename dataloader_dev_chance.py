@@ -72,7 +72,7 @@ if st.button("Commit to Database"):
         VALUES ({', '.join(['?' for _ in expected_cols])})
         """
 
-        cursor.executemany(insert_sql, df_data_load_2.values.tolist())
+        cursor.executemany(insert_sql, df_load.values.tolist())
         connection.commit()
         st.success("Data committed to PIM.db successfully ✅")
 
