@@ -6,6 +6,9 @@ import gc
 import os
 from scipy.optimize import newton
 from io import StringIO
+
+reference year = st.text_input("Please enter a reference year for discounting")
+
 ############################### SET UP CUBE DATA ###################################################################################################################
 # Specify the file paths
 CP_Path = "Dummy_Data.csv"
