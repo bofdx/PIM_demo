@@ -10,6 +10,12 @@ name = "Data Loading"
 icon = "⚡"
 
 [[pages]]
+path = "Essbase_Data_Preparation.py"
+name = "Data Prep"
+icon = "🏎"
+
+
+[[pages]]
 name = "Chance of Development"
 icon = "🎲"
 is_section = true
