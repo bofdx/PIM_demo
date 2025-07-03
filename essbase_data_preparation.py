@@ -7,7 +7,7 @@ import os
 from scipy.optimize import newton
 from io import StringIO
 
-reference_year = st.number_input("Please enter a reference year for discounting")
+reference_year = st.number_input("Please enter a reference year for discounting", value = 2024, placeholder = value)
 
 ############################### SET UP CUBE DATA ###################################################################################################################
 # Specify the file paths
