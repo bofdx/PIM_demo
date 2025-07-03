@@ -10,11 +10,11 @@ from io import StringIO
 col1, col2, col3 =st.columns(3)
 
 with col1:
-    reference_year = st.number_input("Please enter a reference year for discounting", value=2025, step=1, format="%d")
+    reference_year = st.number_input("Reference Year", value=2025, step=1, format="%d")
 with col2:
-    discount_rate = (st.number_input("Please enter a discount rate (%) ", value=10, step=1, format="%d"))/100
+    discount_rate = (st.number_input("Discount Rate (%) ", value=10, step=1, format="%d"))/100
 with col3:
-    inflation_rate = st.number_input("Please enter an inflation rate (%)", value=2.2, step=0.1, format="%.2f") / 100
+    inflation_rate = st.number_input("Inflation Rate (%)", value=2.2, step=0.1, format="%.2f") / 100
 
 
 ############################### SET UP CUBE DATA ###################################################################################################################
