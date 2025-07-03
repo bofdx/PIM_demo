@@ -290,7 +290,7 @@ overall_summary.loc[:, 'PWPI'] = overall_summary['NPV10 (USDM)'] / overall_summa
 
 st.write(overall_summary)
 
-col1a, col2b =st.columns(2)
+col1a, col2a =st.columns(2)
 
 with col1a:
     
