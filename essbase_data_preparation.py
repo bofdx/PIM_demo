@@ -28,7 +28,9 @@ df_CP = df_CP.merge(df_CP_Accounts, on='Account')
 # df_CP['Category'] = df_CP['Category'].replace('CAT_Default', 'Default')
 
 #Remove redundant rows and columns
-df_CP = df_CP.drop(columns=['Year_NA'])
+if 'Year_NA' in df_CP.columns:
+    df_CP = df_CP.drop(columns=['Year_NA'])
+  
 df_CP = df_CP[df_CP['Category'] != 'Category']
 
 df_CP['Period']='MTD'
