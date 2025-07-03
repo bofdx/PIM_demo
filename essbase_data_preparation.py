@@ -6,7 +6,12 @@ import gc
 import os
 from scipy.optimize import newton
 from io import StringIO
+import matplotlib.pyplot as plt
 
+
+
+
+##########################INPUTS###################################################################################################################################################
 col1, col2, col3, col4 =st.columns(4)
 
 with col1:
@@ -277,7 +282,40 @@ overall_summary = pd.merge(
     how='left'
 )
 
-
-##################### Development Capital ##################################################################################################################################################################################################################################################################################
+#########################################################################################################################################################################################################################################################
+###################### Summary Table Calculations and Output ############################################################################################################################################################################################
+#########################################################################################################################################################################################################################################################
+# Perform calculations on the summary table
+overall_summary.loc[:, 'PWPI'] = overall_summary['NPV10 (USDM)'] / overall_summary['Discounted CAPEX (US$M)']
 
 st.write(overall_summary)
+
+
+
+
+# Drop rows with missing or zero values that would ruin the plot
+plot_df = overall_summary.dropna(subset=['IRR (%)', 'PWPI', 'Total_Production_mmboe'])
+plot_df = plot_df[plot_df['Total_Production_mmboe'] > 0]
+
+plt.figure(figsize=(12, 8))
+scatter = plt.scatter(
+    plot_df['IRR (%)'],
+    plot_df['PWPI'],
+    s=plot_df['Total_Production_mmboe'] * 5,  # Adjust multiplier for bubble size scaling
+    alpha=0.6,
+    edgecolors='w',
+    linewidth=0.5
+)
+
+plt.title('Return on Investment (Lifecycle, Unrisked)', fontsize=16)
+plt.xlabel('IRR (%)', fontsize=14)
+plt.ylabel('PWPI', fontsize=14)
+plt.grid(True)
+
+# Optional: Add labels for each bubble
+# for i, row in plot_df.iterrows():
+#     plt.text(row['IRR (%)'], row['PWPI'], row['Asset'], fontsize=8)
+
+plt.tight_layout()
+plt.show()
+
