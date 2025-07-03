@@ -63,13 +63,13 @@ df_essbase['Year'] = df_essbase['Year'].str.replace('CY', '').astype(int)
 
 ################### Add in Discount Factors #######################################################################################################################
 
-# Reference year and discount rate
-discount_rate = 0.1
-inflation_rate = 0.022
-
-# Calculate Discount_Factor using mid-year discounting
-df_essbase['Discount_Factor'] = 1 / ((1 + discount_rate) ** (df_essbase['Year'] - reference_year + 0.5))
-df_essbase['Real_Discount_Factor'] = 1/((1+inflation_rate)**(df_essbase['Year'] - reference_year + 0.5))
+if mid_year_discounting = "Mid-Year":
+    # Calculate Discount_Factor using mid-year discounting
+    df_essbase['Discount_Factor'] = 1 / ((1 + discount_rate) ** (df_essbase['Year'] - reference_year + 0.5))
+    df_essbase['Real_Discount_Factor'] = 1/((1+inflation_rate)**(df_essbase['Year'] - reference_year + 0.5))
+else
+    df_essbase['Discount_Factor'] = 1 / ((1 + discount_rate) ** (df_essbase['Year'] - reference_year))
+    df_essbase['Real_Discount_Factor'] = 1/((1+inflation_rate)**(df_essbase['Year'] - reference_year))
 
 ################### SECTION TO SUM TOCS -TO BE ADDED ##############################################################################################################
 
