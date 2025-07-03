@@ -1,0 +1,144 @@
+Account,Alias
+Account,Account
+SV,Sales Volume Total
+SV11,Sales Gas Sales Volume
+SV1101,Contracted Sales Gas Volume to Domestic
+SV1102,Uncontracted Sales Gas Volume to Domestic
+SV1103,Contracted Sales Gas Volume to LNG
+SV1104,Uncontracted Sales Gas Volume to LNG
+SV0001,Ethane Sales Volume
+SV0002,LPG Sales Volume
+SV12,LNG Sales Volume
+SV1201,Contracted LNG Sales Volume
+SV1202,Uncontracted LNG Sales Volume
+SV0003,Condensate Sales Volume
+SV0004,Crude Sales Volume
+SV0005,Hydrogen Sales Volume
+SV0006,Ammonia Sales Volume
+SV0007,Carbon Credit Volume
+PV,Production Volume Total
+PV0001,BOE Sales Volume
+PV0002,"Gas Bank, Storage Movement & Internal Gas Purchase"
+PV0003,Post-Production Plant Fuel Flare Vent
+PV0004,Third Party Gas Purchase
+PL,Net Profit and Loss
+PL11,Profit Before Tax
+PL21,EBIT
+PL41,EBITDAX
+PL61,Total Product Sales
+PL6101,Contracted Sales Gas Revenue
+PL6102,Uncontracted Sales Gas Revenue
+PL6103,Ethane Revenue
+PL6104,LPG Revenue
+PL6105,Contracted LNG Revenue
+PL6106,Uncontracted LNG Revenue
+PL6107,Condensate Revenue
+PL6108,Crude Revenue
+PL6109,Hydrogen Product Sales
+PL6110,Ammonia Product Sales
+PL62,Total Other Revenue
+PL6201,Carbon Credit Sales
+PL6203,Tolling Revenue Intra-asset
+PL6204,Tolling Revenue Third Party
+PL6202,Other Revenue
+PL63,Total Production Costs
+PL6301,Downhole Opex
+PL6302,Surface Opex
+PL6303,Other Production Costs
+PL6304,Midstream Opex Integrated Asset
+PL64,Total Other Operating Costs
+PL6401,Pipeline & Facility Costs
+PL6402,LNG Plant Costs
+PL6403,Toll Payments Intra-asset
+PL6404,Tolling / Transport Expense Third Party
+PL6405,Royalty
+PL6406,Overriding Royalty
+PL6407,Production Tax
+PL6408,Net Carbon Permit Cost
+PL6409,Shipping Cost
+PL6410,Property Tax
+PL4101,Gas Purchase Cost
+PL4102,SGA
+PL4103,Foreign exchange gains/(losses)
+PL42,"Total Depreciation, Depletion & Amortisation"
+PL71,Depletion and Depreciation
+PL7101,Depletion
+PL7102,Financial Depreciation
+PL72,Exploration and evaluation expensed
+PL7201,Exploration Expensed
+PL7202,GGA Exploration Expensed
+PL4201,Restoration Write Off
+PL2101,Impairment
+PL31,Net Finance Costs
+PL3101,Finance Income
+PL81,Finance Costs
+PL8101,Interest Paid to Third Parties (Sustaining)
+PL8102,Interest on Lease Liabilities
+PL8103,Borrowing Costs Expense
+PL8104,Unwind of Discounting on Contract Liabilities
+PL8105,Unwind of Discounting on Provisions
+PL22,Total Taxation Expenses
+PL91,Total Income Tax Expenses
+PL9101,Corporate Tax
+PL9102,Deferred Income Tax
+PL92,Royalty?related Taxation Expense
+PL9201,Royalty Related Tax
+PL9202,PRRT
+PL9203,Deferred Royalty Related Tax
+CX,Total CAPEX
+CX0001,Exploration Capital
+CX0002,Appraisal Capital
+CX0003,Downhole Development Capital
+CX0004,Surface Development Capital
+CX0005,Construction and Fixed Assets
+CX0006,GGA Exploration
+CX0007,GGA Development
+CX0008,Capitalised Interest
+CX0010,Midstream Capex Integrated Asset
+CX0011,Midstream Capex C&FA
+AB,Total Abandonment
+AB0001,Decommissioning
+OA,Other Accounts
+OA11,Carbon Emissions
+OA111,Net Carbon Emissions
+OA1111,Carbon Emissions Generated
+OA1112,Carbon Emissions Abated
+OA1101,Compliance Credits (ACCU/SMC)
+OA1102,Voluntary Credits (VCU)
+OA1103,CCS CO2e Tolled
+OA1104,Net Emissions Above Baseline
+OA0001,BOE Production
+OA0002,Historical Tax Depreciation
+OA0003,Future Tax Depreciation
+OA0004,Average working interest %
+OA0005,Wells drilled #
+OA0006,E&E Success Factor %
+OA0007,BTCF
+OA0008,ATCF
+OA0009,M&A Capital Adjustment
+OA0010,Lease Payments
+OA0011,2P Developed in Year (Total)
+OA0012,2P Reserve add in Year (Total)
+OA0013,Decarbonisation & Clean Fuels Capital
+CX0009,Pre FID Capital
+ST,Sensitivities
+ST11,BTCF Sensitivities (Delta in BTCF)
+ST1101,"Brent Price -US$10/bbl (Brent Only, Real $)"
+ST1102,FX -5c AUD:USD
+ST1103,"LNG Price -US$1/mmbtu (Uncontracted/JKM Only, Real $)"
+ST1104,Gas Price -AUD$1/GJ Uncontracted Dom (Real $)
+ST1105,Carbon Price -US$10/t (Real $)
+ST1106,CPI +1% Inflation (AU and US) - Revenue + Costs
+ST1107,CPI +1% Inflation (AU and US) - Costs Only
+ST0001,Operating Model BTCF pre PRRT
+ST0002,Operating Model BTCF
+ST0003,Operating Model ATCF
+Account_NA,
+LE,Legacy
+LE11,Legacy Sales Gas Volume
+LE1111,Legacy Contracted Sales Gas Volume
+LE1112,Legacy Uncontracted Sales Gas Volume
+LE12,Legacy Major Growth Capex
+CF,
+CF11,BTCF Calculated
+CF12,ATCF Calculated
