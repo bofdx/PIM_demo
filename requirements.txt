@@ -2,3 +2,5 @@ streamlit
 st-pages
 openpyxl
 pandas
+numpy_financial
+scipy
