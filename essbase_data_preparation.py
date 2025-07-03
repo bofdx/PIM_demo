@@ -54,7 +54,6 @@ df_essbase['Year'] = df_essbase['Year'].str.replace('CY', '').astype(int)
 ################### Add in Discount Factors #######################################################################################################################
 
 # Reference year and discount rate
-reference_year = 2025
 discount_rate = 0.1
 inflation_rate = 0.022
 
