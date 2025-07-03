@@ -11,7 +11,7 @@ icon = "⚡"
 
 [[pages]]
 path = "essbase_data_preparation.py"
-name = "Data Prep"
+name = "Benchmarking"
 icon = "🏎"
 
 
