@@ -6,7 +6,7 @@ import gc
 import os
 from scipy.optimize import newton
 from io import StringIO
-############################### SET UP 
+############################### SET UP CUBE DATA ###################################################################################################################
 # Specify the file paths
 CP_Path = "Dummy_Data.csv"
 CP_Accounts = 'Dim_Account_SPMFS.csv'
@@ -48,7 +48,24 @@ df_essbase = df_CP.melt(id_vars=id_vars, value_vars=year_columns,
 # Remove 'CY' from the 'Year' column and convert to integer
 df_essbase['Year'] = df_essbase['Year'].str.replace('CY', '').astype(int)
 
+################### Add in Discount Factors #######################################################################################################################
 
+# Reference year and discount rate
+reference_year = 2025
+discount_rate = 0.1
+inflation_rate = 0.022
+
+# Calculate Discount_Factor using mid-year discounting
+df_essbase['Discount_Factor'] = 1 / ((1 + discount_rate) ** (df_essbase['Year'] - reference_year + 0.5))
+df_essbase['Real_Discount_Factor'] = 1/((1+inflation_rate)**(df_essbase['Year'] - reference_year + 0.5))
+
+################### SECTION TO SUM TOCS -TO BE ADDED ##############################################################################################################
+
+
+
+
+
+################### SECTION TO CALCULATE INCREMENTALS TO BE ADDED #################################################################################################
 st.write(df_essbase)
 
 
