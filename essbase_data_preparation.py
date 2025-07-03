@@ -73,14 +73,64 @@ else:
 
 ################### SECTION TO SUM TOCS -TO BE ADDED ##############################################################################################################
 
-
-
-
-
 ################### SECTION TO CALCULATE INCREMENTALS TO BE ADDED #################################################################################################
 st.write(df_essbase)
 
 
+################ This section will eventually be split out on its own##############################################################################################
 
 
+# Filter the DataFrame for the 'ATCF_TOC' Account and make a copy
+df_atcf = df_essbase[df_essbase['Account'] == 'ATCF'].copy()
 
+# Calculate Present Value for each row
+df_atcf.loc[:, 'Present_Value'] = df_atcf['Value'] * df_atcf['Discount_Factor']
+
+
+# Group by 'Scenario', 'Asset', and 'Case' and sum the 'Present_Value'
+npv_summary = df_atcf.groupby(['Scenario','Version', 'Asset', 'Case'])['Present_Value'].sum().reset_index()
+npv_summary = npv_summary.rename(columns={'Present_Value': 'NPV10 (USDM)'})
+
+# Sum the 'Value' column (Total ATCF US$M Nominal)
+total_atcf_summary = df_atcf.groupby(['Scenario','Version', 'Asset', 'Case'])['Value'].sum().reset_index()
+total_atcf_summary = total_atcf_summary.rename(columns={'Value': 'Total ATCF US$M Nominal'})
+
+# Calculate IRR for each group using Newton's method (same as excel)
+
+def calculate_irr(cash_flows):
+    # Ensure cash flows are a NumPy array
+    cash_flows = np.array(cash_flows)
+
+    # Define the NPV function as a lambda for IRR calculation
+    def npv(rate):
+        return np.sum(cash_flows / (1 + rate) ** np.arange(len(cash_flows)))
+
+    # Handle cases where IRR might fail:
+    # - Ensure there's at least one positive and one negative cash flow
+    if (cash_flows > 0).any() and (cash_flows < 0).any():
+        try:
+            # Use Newton's method with a reasonable starting guess (e.g., 10% or 0.1)
+            irr = newton(npv, x0=0.1)
+            return irr * 100  # Convert to percentage
+        except RuntimeError:
+            # Newton's method failed to converge
+            return np.nan
+    else:
+        # If all cash flows are the same sign, IRR is undefined
+        return np.nan
+
+# Calculate IRR for each group and replace NaNs with 0
+irr_summary = df_atcf.groupby(['Scenario','Version', 'Asset', 'Case'])['Value'].apply(
+    lambda x: calculate_irr(x.fillna(0).values)
+).reset_index()
+
+irr_summary = irr_summary.rename(columns={'Value': 'IRR (%)'})
+
+# Merge the NPV, IRR, and Total ATCF summaries
+overall_summary = pd.merge(npv_summary, irr_summary, on=['Scenario','Version', 'Asset', 'Case'], how='left')
+overall_summary = pd.merge(overall_summary, total_atcf_summary, on=['Scenario','Version', 'Asset', 'Case'], how='left')
+
+# Convert IRR to a percentage format
+overall_summary['IRR (%)'] = (overall_summary['IRR (%)'] ).round(2)
+
+st.write(overall_summary)
