@@ -77,8 +77,12 @@ else:
 st.write(df_essbase)
 
 
-################ This section will eventually be split out on its own##############################################################################################
 
+#####################################################################################################################################################################
+################ This section will eventually be split out on its own##############################################################################################
+#####################################################################################################################################################################
+
+######## NPV10, IRR, Total ATCF CALCULATION #################################################################################################################################################################################################################################################################
 
 # Filter the DataFrame for the 'ATCF_TOC' Account and make a copy
 df_atcf = df_essbase[df_essbase['Account'] == 'OA0008'].copy()
@@ -132,5 +136,148 @@ overall_summary = pd.merge(overall_summary, total_atcf_summary, on=['Scenario','
 
 # Convert IRR to a percentage format
 overall_summary['IRR (%)'] = (overall_summary['IRR (%)'] ).round(2)
+
+
+######## PRODUCTION CALCULATIONS ###############################################################################################################################################################################################################################################################################
+
+# Filter the DataFrame for the production volume in BOE Account and make a copy
+df_prod = df_essbase[df_essbase['Account'] == 'PV'].copy()
+
+# Calculate Present Value for each row using .loc to avoid the warning
+df_prod.loc[:, 'Present_Value'] = df_prod['Value'] * df_prod['Discount_Factor']
+
+# Calculate discounted production and total production
+prod_summary = (
+    df_prod.groupby(['Scenario','Version', 'Asset', 'Case'])
+    .agg(
+        Discounted_Production_mmbbl=('Present_Value', 'sum'),
+        Total_Production_mmboe=('Value', 'sum'),
+    )
+    .reset_index()
+)
+
+# Find the peak Total Production for each combination
+peak_production = (
+    df_prod.groupby(['Version', 'Scenario', 'Asset', 'Case'])['Value']
+    .max()
+    .reset_index()
+    .rename(columns={'Value': 'Peak_Total_Production_mmboe'})
+)
+
+# Merge the peak production data into the production summary table
+prod_summary = pd.merge(prod_summary, peak_production, on=['Version', 'Scenario', 'Asset', 'Case'],how='left')
+
+# Filter rows with non-zero production to find the first non-zero production year
+non_zero_prod = df_prod[df_prod['Value'] > 0]
+first_non_zero_year = (
+    non_zero_prod.groupby(['Scenario','Version', 'Asset', 'Case'])['Year']
+    .min()
+    .reset_index()
+    .rename(columns={'Year': 'RFSU (First non-zero production year)'})
+)
+
+# Merge the first non-zero production year into the summary
+prod_summary = pd.merge(prod_summary, first_non_zero_year, on=['Scenario','Version', 'Asset', 'Case'], how='left')
+
+# Add the first non-zero production year to the main production DataFrame
+df_prod = pd.merge(
+    df_prod, 
+    first_non_zero_year, 
+    on=['Scenario','Version', 'Asset', 'Case'], 
+    how='left'
+)
+
+# Calculate years online and filter for the first five years
+df_prod['Years Online'] = df_prod['Year'] - df_prod['RFSU (First non-zero production year)'] + 1
+df_first_five_years = df_prod[(df_prod['Years Online'] >= 1) & (df_prod['Years Online'] <= 5)]
+
+
+# Calculate the average production for the first five years
+avg_production = (
+    df_first_five_years.groupby(['Scenario','Version', 'Asset', 'Case'])['Value']
+    .mean()
+    .reset_index()
+    .rename(columns={'Value': 'Avg Production (First 5 Years)'})
+)
+
+# Merge the 5yr average production into the summary
+prod_summary = pd.merge(
+    prod_summary, 
+    avg_production, 
+    on=['Scenario','Version', 'Asset', 'Case'], 
+    how='left')
+
+# Merge the prod_summary into the overall summary
+overall_summary = pd.merge(
+    overall_summary, 
+    prod_summary, 
+    on=['Version','Scenario', 'Asset', 'Case'], 
+    how='left')
+
+
+############### Total Real CAPEX, Total Discounted CAPEX & Real CAPEX to RFSU ######################################################################################################################################################################################################################################################################
+
+# Filter the DataFrame to total capex
+df_capex = df_essbase[(df_essbase['Account'] == 'CX') & (df_essbase['Category'] == 'CAT_CAPEX')].copy()
+
+
+# Calculate real capex for each row using .loc to avoid the warning
+df_capex.loc[:, 'CAPEX_real'] = -df_capex['Value'] * df_capex['Real_Discount_Factor']
+
+# Group by 'Scenario', 'Asset', and 'Case' and sum the 'real capex'
+capex_summary = df_capex.groupby(['Scenario', 'Version','Asset', 'Case'])['CAPEX_real'].sum().reset_index()
+capex_summary = capex_summary.rename(columns={'CAPEX_real':'Total CAPEX (US$M Real)'})
+
+# Merge the capex_summary into the overall summary
+overall_summary = pd.merge(
+    overall_summary, 
+    capex_summary, 
+    on=['Scenario', 'Version','Asset', 'Case'], 
+    how='left')
+
+
+# Calculate discounted capex (i=10%) for each row using .loc to avoid the warning
+df_capex.loc[:, 'CAPEX_discounted'] = -df_capex['Value'] * df_capex['Discount_Factor']
+
+
+# Group by 'Scenario', 'Asset', and 'Case' and sum the 'discounted capex'
+capex_disc_summary = df_capex.groupby(['Scenario', 'Version','Asset', 'Case'])['CAPEX_discounted'].sum().reset_index()
+capex_disc_summary = capex_disc_summary.rename(columns={'CAPEX_discounted': 'Discounted CAPEX (US$M)'})
+
+
+# Merge the discounted capex summary into the overall summary
+overall_summary = pd.merge(
+    overall_summary, 
+    capex_disc_summary, 
+    on=['Scenario', 'Version','Asset', 'Case'], 
+    how='left'
+)
+
+
+# Filter the CAPEX data for years up to and including 'RFSU (First non-zero production year)'
+df_capex = pd.merge(
+    df_capex,
+    first_non_zero_year,
+    on=['Scenario','Version', 'Asset', 'Case'],
+    how='left'
+)
+
+df_capex_rfsu = df_capex[df_capex['Year'] <= df_capex['RFSU (First non-zero production year)']]
+
+# Calculate total CAPEX up to and including the RFSU year
+capex_rfsu_summary = df_capex_rfsu.groupby(['Scenario','Version', 'Asset', 'Case'])['CAPEX_real'].sum().reset_index()
+capex_rfsu_summary = capex_rfsu_summary.rename(columns={'CAPEX_real': 'CAPEX up to RFSU (US$M Real)'})
+
+
+# Merge the CAPEX up to RFSU into the overall summary
+overall_summary = pd.merge(
+    overall_summary, 
+    capex_rfsu_summary, 
+    on=['Scenario', 'Version','Asset', 'Case'], 
+    how='left'
+)
+
+
+##################### Development Capital ##################################################################################################################################################################################################################################################################################
 
 st.write(overall_summary)
