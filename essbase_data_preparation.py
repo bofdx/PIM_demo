@@ -12,7 +12,7 @@ col1, col2, col3, col4 =st.columns(4)
 with col1:
     reference_year = st.number_input("Reference Year", value=2025, step=1, format="%d")
 with col2:
-    mid_year_discounting = st.multiselect("Discounting Type:",["Mid-Year","End of Year"],default = "Mid-Year")
+    mid_year_discounting = st.selectbox("Discounting Type:", ["Mid-Year", "End of Year"], index=0)
 with col3:
     discount_rate = (st.number_input("Discount Rate (%) ", value=10, step=1, format="%d"))/100
 with col4:
