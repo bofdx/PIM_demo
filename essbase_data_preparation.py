@@ -9,10 +9,10 @@ from io import StringIO
 
 reference_year = st.number_input(
     "Please enter a reference year for discounting",
-    value=2024,
+    value=2025,
     step=1,
     format="%d",
-    placeholder="e.g. 2024"
+  
 )
 
 ############################### SET UP CUBE DATA ###################################################################################################################
