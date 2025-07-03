@@ -7,13 +7,15 @@ import os
 from scipy.optimize import newton
 from io import StringIO
 
-col1, col2, col3 =st.columns(3)
+col1, col2, col3, col4 =st.columns(4)
 
 with col1:
     reference_year = st.number_input("Reference Year", value=2025, step=1, format="%d")
 with col2:
-    discount_rate = (st.number_input("Discount Rate (%) ", value=10, step=1, format="%d"))/100
+    mid_year_discounting = st.multiselect("Discounting Type:",["Mid-Year","End of Year"],default = "Mid-Year")
 with col3:
+    discount_rate = (st.number_input("Discount Rate (%) ", value=10, step=1, format="%d"))/100
+with col4:
     inflation_rate = st.number_input("Inflation Rate (%)", value=2.2, step=0.1, format="%.2f") / 100
 
 
