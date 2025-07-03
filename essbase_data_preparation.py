@@ -7,7 +7,7 @@ import os
 from scipy.optimize import newton
 from io import StringIO
 
-Datafile = "Dummy_Data.csv
+Datafile = "Dummy_Data.csv"
 
 # Load the CP CubeStringIO
 df_CP = pd.read_csv(Datafile, delimiter=',')
