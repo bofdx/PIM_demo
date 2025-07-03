@@ -10,7 +10,7 @@ name = "Data Loading"
 icon = "⚡"
 
 [[pages]]
-path = "Essbase_Data_Preparation.py"
+path = "essbase_data_preparation.py"
 name = "Data Prep"
 icon = "🏎"
 
