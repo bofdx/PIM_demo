@@ -290,9 +290,9 @@ overall_summary.loc[:, 'PWPI'] = overall_summary['NPV10 (USDM)'] / overall_summa
 
 st.write(overall_summary)
 
-col1, col2, col3, col4 =st.columns(4)
+col1a, col2b =st.columns(2)
 
-with col1:
+with col1a:
     
 
     # Filter the data
@@ -315,6 +315,6 @@ with col1:
     # Show in Streamlit
     st.plotly_chart(fig, use_container_width=True)
 
-with col2:
-    st.write("Chart to come"
+with col2a:
+    st.write("Chart to come")
 
