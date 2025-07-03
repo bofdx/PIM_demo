@@ -7,7 +7,7 @@ import os
 from scipy.optimize import newton
 from io import StringIO
 import matplotlib.pyplot as plt
-
+import plotly.express as px
 
 
 
@@ -290,26 +290,31 @@ overall_summary.loc[:, 'PWPI'] = overall_summary['NPV10 (USDM)'] / overall_summa
 
 st.write(overall_summary)
 
+col1, col2, col3, col4 =st.columns(4)
 
-import plotly.express as px
-import streamlit as st
+with col1:
+    
 
-# Filter the data
-plot_df = overall_summary.dropna(subset=['IRR (%)', 'PWPI', 'Total_Production_mmboe'])
-plot_df = plot_df[plot_df['Total_Production_mmboe'] > 0]
+    # Filter the data
+    plot_df = overall_summary.dropna(subset=['IRR (%)', 'PWPI', 'Total_Production_mmboe'])
+    plot_df = plot_df[plot_df['Total_Production_mmboe'] > 0]
+    
+    # Plot
+    fig = px.scatter(
+        plot_df,
+        x='IRR (%)',
+        y='PWPI',
+        size='Total_Production_mmboe',
+        color='Asset',  # Optional: use any grouping column you like
+        hover_name='Asset',
+        title='Return on Investment (Lifecycle, Unrisked)',
+        size_max=60,
+        template='plotly_white'
+    )
+    
+    # Show in Streamlit
+    st.plotly_chart(fig, use_container_width=True)
 
-# Plot
-fig = px.scatter(
-    plot_df,
-    x='IRR (%)',
-    y='PWPI',
-    size='Total_Production_mmboe',
-    color='Asset',  # Optional: use any grouping column you like
-    hover_name='Asset',
-    title='Return on Investment (Lifecycle, Unrisked)',
-    size_max=60,
-    template='plotly_white'
-)
+with col2:
+    st.write("Chart to come"
 
-# Show in Streamlit
-st.plotly_chart(fig, use_container_width=True)
