@@ -13,4 +13,4 @@ Datafile = "Dummy_Data.csv"
 df_CP = pd.read_csv(Datafile, delimiter=',')
 
 
-st.print(df_CP)
+st.write(df_CP)
