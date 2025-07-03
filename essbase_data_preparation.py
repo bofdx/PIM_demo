@@ -27,6 +27,11 @@ df_CP = df_CP.merge(df_CP_Accounts, on='Account')
 # df_CP = df_CP.rename(columns={'Source': 'Case', 'Alias': 'Account','Account':'Alias', 'Asset_Alias': 'Asset'})
 # df_CP['Category'] = df_CP['Category'].replace('CAT_Default', 'Default')
 
+#Remove redundant rows and columns
+df_CP = df_CP.drop(columns=['Year_NA'])
+df_CP = df_CP[df_CP['Category'] != 'Category']
+
+df_CP['Period']='MTD'
 
 
 st.write(df_CP)
